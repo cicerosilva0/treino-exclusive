@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { treinos } from "../data/treinos";
+import { getSmartworkoutUrl } from "../data/smartworkoutUrls";
 import { Search, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 
 const todosExercicios = Object.entries(treinos).flatMap(([key, treino]) =>
@@ -24,11 +25,6 @@ function getGrupo(nome) {
     }
   }
   return "Outros";
-}
-
-function getSmartworkoutUrl(nome) {
-  const query = encodeURIComponent(nome.replace(/\s*\([^)]+\)/g, "").trim());
-  return `https://smartworkout.app/pt/biblioteca-de-exercicios?q=${query}`;
 }
 
 export default function Biblioteca() {

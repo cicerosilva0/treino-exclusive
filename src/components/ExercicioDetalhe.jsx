@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useApp } from "../context/AppContext";
 import { treinos } from "../data/treinos";
+import { getSmartworkoutUrl } from "../data/smartworkoutUrls";
+import { parseRepsPorSerie } from "../data/utils";
 import { useStopwatch, useCountdown, formatTime } from "../hooks/useTimer";
 import {
   ArrowLeft, Play, Pause, RotateCcw, Timer, ExternalLink,
@@ -19,6 +21,7 @@ export default function ExercicioDetalhe() {
   // Load saved progress
   const saved = getCarga(treinoKey, selectedExercicio.id);
   const totalSeries = selectedExercicio.series;
+  const repsPorSerie = parseRepsPorSerie(selectedExercicio.reps, totalSeries);
 
   const [seriesData, setSeriesData] = useState(() => {
     const base = Array.from({ length: totalSeries }, (_, i) => ({
@@ -76,10 +79,7 @@ export default function ExercicioDetalhe() {
   const done = seriesData.filter((s) => s.done).length;
   const percent = (done / totalSeries) * 100;
 
-  function getSmartworkoutUrl(nome) {
-    const query = encodeURIComponent(nome.replace(/\s*\([^)]+\)/g, "").trim());
-    return `https://smartworkout.app/pt/biblioteca-de-exercicios?q=${query}`;
-  }
+
 
   const restOptions = [30, 45, 60, 90, 120, 180];
 
@@ -226,7 +226,7 @@ export default function ExercicioDetalhe() {
             >
               {idx + 1}
             </span>
-            <span className="serie-alvo">{selectedExercicio.reps}</span>
+            <span className="serie-alvo">{repsPorSerie[idx]}</span>
             <input
               className="serie-input"
               type="number"

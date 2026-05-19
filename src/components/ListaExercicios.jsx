@@ -1,4 +1,5 @@
 import { treinos } from "../data/treinos";
+import { getSmartworkoutUrl } from "../data/smartworkoutUrls";
 import { useApp } from "../context/AppContext";
 import { ArrowLeft, ChevronRight, Dumbbell, ExternalLink, Clock } from "lucide-react";
 
@@ -8,11 +9,6 @@ export default function ListaExercicios() {
   if (!selectedTreino) return null;
 
   const treino = treinos[selectedTreino];
-
-  function getSmartworkoutUrl(nome) {
-    const query = encodeURIComponent(nome.replace(/\s*\([^)]+\)/g, "").trim());
-    return `https://smartworkout.app/pt/biblioteca-de-exercicios?q=${query}`;
-  }
 
   function getSeriesFeitas(exercicioId) {
     const carga = getCarga(selectedTreino, exercicioId);
